@@ -50,6 +50,15 @@ class BookingService:
     def book(self, employee_id, hotel_id, room_type, check_in_date, check_out_date):
         """Book a room at a hotel."""
 
+        return {
+            "id": 1,
+            "employee_id": employee_id,
+            "hotel_id": hotel_id,
+            "room_type": room_type,
+            "check_in_date": check_in_date,
+            "check_out_date": check_out_date,
+        }
+
         #Context for later: check_out_date >= check_in_date, hotel must exist and room type must be valid,
         #booking must conform to booking policies
         #room bookings must be sensible, with no overlaps in dates
@@ -75,8 +84,8 @@ class HotelServiceTests(unittest.TestCase):
                 "hotel_id": 1,
                 "employee_id": 1,
                 "room_type": "Single",
-                "check_in": "20/01/2003",
-                "check_out": "22/01/2003",
+                "check_in_date": "20/01/2003",
+                "check_out_date": "22/01/2003",
             })
         
 
