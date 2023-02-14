@@ -15,7 +15,7 @@ class HotelService:
 
         Throws an exception if the hotel does not exist."""
 
-    def findHotelBy(self, hotel_id):
+    def get_rooms(self, hotel_id):
         """Get all information for a hotel with the given ID."""
 
 
@@ -54,3 +54,33 @@ class BookingService:
         #booking must conform to booking policies
         #room bookings must be sensible, with no overlaps in dates
         #Function returns a booking confirmation or raises an error
+
+
+class HotelServiceTests(unittest.TestCase):
+    def test_valid_booking(self):
+        hs = HotelService()
+        hs.add_hotel(1, "First Hotel")
+        hs.set_room(1, 1, "Single")
+
+        cs = CompanyService()
+        cs.add_employee(1, 1)
+
+        bps = BookingPolicyService()
+        bps.set_employee_policy(1, ["Single"])
+
+        bs = BookingService()
+        booking = bs.book(1, 1, "Single", "20/01/2003", "22/01/2003")
+        self.assertEqual(booking, {
+                "id": 1,
+                "hotel_id": 1,
+                "employee_id": 1,
+                "room_type": "Single",
+                "check_in": "20/01/2003",
+                "check_out": "22/01/2003",
+            })
+        
+
+
+if __name__=="__main__":
+    unittest.main()
+
