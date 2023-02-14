@@ -5,10 +5,12 @@ class HotelService:
     def __init__(self):
         self.hotels = {}
 
-    def add_hotel(self, hotel_id, name):
+    def add_hotel(self, hotel_id, name, room_dicts):
         """Create a hotel with given ID.
 
-        Throws an exception when a hotel with that ID already exists."""
+        Throws an exception when a hotel with that ID already exists.
+        If {room_dicts} is given, initialise the hotel with the given
+        numbers and types of rooms."""
 
     def set_room(self, hotel_id, number, room_type):
         """Insert or update a room with given number and type.
@@ -81,13 +83,32 @@ class HotelServiceTests(unittest.TestCase):
         booking = bs.book(1, 1, "Single", "20/01/2003", "22/01/2003")
         self.assertEqual(booking, {
                 "id": 1,
-                "hotel_id": 1,
                 "employee_id": 1,
+                "hotel_id": 1,
                 "room_type": "Single",
                 "check_in_date": "20/01/2003",
                 "check_out_date": "22/01/2003",
             })
-        
+
+    def test_two_valid_bookings(self):
+        hs = HotelService()
+        hs.add_hotel(1, "First Hotel", {"Single": 2})
+
+        cs = CompanyService()
+        cs.add_employee(1, 1)
+        cs.add_employee(1, 2)
+
+        bs = BookingService()
+        first_booking = bs.book(1, 1, "Single", "20/01/2003", "22/01/2003")
+        second_booking = bs.book(2, 1, "Single", "19/01/2003", "24/01/2003")
+        self.assertEqual(second_booking, {
+                "id": 2,
+                "employee_id": 2,
+                "hotel_id": 1,
+                "room_type": "Single",
+                "check_in_date": "19/01/2003",
+                "check_out_date": "24/01/2003",
+            })
 
 
 if __name__=="__main__":
